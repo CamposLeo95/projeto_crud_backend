@@ -75,7 +75,7 @@ class UsersController {
 
         }catch(error){
             console.error(error);
-            return res.status(500).json({msg: "Internal Server Error"})
+            return res.status(500).json({msg: "Internal Server Error"});
         }
     }
 
@@ -83,19 +83,19 @@ class UsersController {
         try{
             const { id } = req.params;
 
-            const user = await User.findById(id)
+            const user = await User.findById(id);
 
             if(!user){
-                return res.status(404).json()
+                return res.status(404).json();
             }
 
-            await User.findByIdAndDelete(id)
+            await User.findByIdAndDelete(id);
 
-            return res.status(200).json({msg: "User deleted"})
+            return res.status(200).json({msg: "User deleted"});
 
         }catch(error){
             console.error(error);
-            return res.status(500).json({msg: "Internal Server Error"})
+            return res.status(500).json({msg: "Internal Server Error"});
         }
     }
 
