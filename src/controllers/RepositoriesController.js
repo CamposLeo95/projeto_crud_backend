@@ -44,8 +44,12 @@ class RepositoriesController {
             if(repository){
                 return res.status(422).json({msg: `Repository ${name} already existis`})
             }
-
-            const userRepository = await Repository.create({name, url, userId: user_id})
+            
+            const userRepository = await Repository.create({
+                name,
+                url,
+                userId: user_id
+            })
 
             return res.status(201).json(userRepository)
 
@@ -53,6 +57,10 @@ class RepositoriesController {
             console.error(error);
             return res.status(500).json({msg: "Internal Server Error."});
         }
+
+    }
+
+    async destroy(req, res){
 
     }
 }
