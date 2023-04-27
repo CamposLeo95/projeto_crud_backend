@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import routes from './routes'
+import helmet from 'helmet'
 
 import './database'
 
@@ -16,6 +17,12 @@ class App {
     middlewares(){
         this.server.use(express.json());
         this.server.use(cors());
+        this.server.use(helmet.contentSecurityPolicy({
+            directives: {
+              defaultSrc: ["'none'"],
+              fontSrc: ["'self'", "<URL1>", "<URL2>", "<URL3>"]
+            }
+          }));
     }
 
     routes(){  
