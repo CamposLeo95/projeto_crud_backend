@@ -5,14 +5,22 @@ class RepositoriesController {
     async index (req, res){
         try {
             const { user_id } = req.params;
+            const { q } = req.query;
             const user = await User.findById(user_id);
 
             if(!user){
                 return res.status(404).json();
+            };
+
+            let query = {};
+
+            if(q){
+                query ={ url: { $regex: q } }
             }
 
             const repositories = await Repository.find({
                 userId: user_id,
+                ...query
             });
 
             return res.status(200).json(repositories);
@@ -36,7 +44,7 @@ class RepositoriesController {
 
             const repository = await Repository.findOne({
                 userId: user_id,
-                name
+                url
             });
 
             if(repository){
@@ -61,25 +69,24 @@ class RepositoriesController {
     async destroy(req, res){
         try {
             const { user_id, id } = req.params;
+            console.log(user_id, id);
             const user = await User.findById(user_id);
     
             if(!user){
                 return res.status(404).json();
             }
 
-            const repository = await Repository.findOne({
-                userId: user_id,
-                id 
-            });
+            const userRepository = await Repository.findById(id)
 
-            if(!repository){
+            console.log(userRepository);
+
+            if(!userRepository){
                 return res.status(404).json();
             }
 
-            await repository.deleteOne();
+            await Repository.findByIdAndDelete(id)
 
             return res.status(200).json();
-
             
         } catch (error) {
             console.error(error);
